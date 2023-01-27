@@ -2,44 +2,75 @@
 #include "write.h"
 using namespace std;
 
-class Print
-{
-    public :
-
-        void print(int nums , int tp) ;
-    private : 
-        void word_print(int tp) ;
-        void chinese_print(int tp) ;
-};
-
 int main()
 {
-    string q = "0" ;
+    int cnt = 0 ;
     ifstream ifs ;
     ifs.open("Eng.txt") ;
     vector<string> words ;
+    vector<string> chinese ;
     if(ifs.is_open()){
-        char t[100] ;
-        while(ifs.getline(t , 100)){
-            // cout << t << '\n' ;
-            q.clear() ;
-            for(int i = 0 ; i < strlen(t) ; i ++){
-                if(t[i] == ' ')     break ;
-                q += t[i] ;
-            }
+        string t ;
+        while(!ifs.eof()){
+            cnt ++ ;
+            ifs >> t ; ifs >> t ;
             words.push_back(t) ;
-            // cout << q << ' ' ;
+            ifs >> t ;
+            chinese.push_back(t) ;
         }
     }
 
-    int t = 0 ;
-    for(int i = 0 ; i < q.size() ; i ++){
-        t = t * 10 + q[i] - '0' ;
-    }
-    t ++ ;
+    // for(int i = 0 ; i < cnt ; i ++){
+    //     cout << chinese[i] << '\n' ; 
+    // }
+
+    cout << cnt << '\n' ;
 
     srand(time(0)) ;
-    int tp = rand() * 15341234 ; 
-    tp = tp % t + 1 ;
-    
+    int tp = rand() * 153479 ; 
+    cout << tp << '\n' ; 
+    tp = tp % cnt ;
+    cout << tp << '\n' ;
+
+    cout << "choose English or Chinese\n" ;
+    string t ;
+    while(cin >> t){
+        if(t == "E"){
+            cout << words[tp] << '\n' ;
+            string tmp ;
+            while(cin >> tmp){
+                if(tmp == "answer"){
+                    cout << chinese[cnt] << '\n' ;
+                    break ;
+                }
+                else if(tmp == chinese[cnt]){
+                    cout << "true\n" ;
+                    break ;
+                }
+                else{
+                    cout << "´íÎó\n" ;
+                }
+            }
+        }
+        else if(t == "C"){
+            cout << chinese[tp] << '\n' ;
+            string tmp ;
+            while(cin >> tmp){
+                if(tmp == "answer"){
+                    cout << words[cnt] << '\n' ;
+                    break ;
+                }
+                else if(tmp == words[cnt]){
+                    cout << "true\n" ;
+                    break ;
+                }
+                else{
+                    cout << "´íÎó\n" ;
+                }
+            }
+        }
+        else if(t == "end"){
+            return 0 ;
+        }
+    }
 }
